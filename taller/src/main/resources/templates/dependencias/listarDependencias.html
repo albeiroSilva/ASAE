@@ -1,0 +1,86 @@
+<!doctype html>
+<html  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Listado de Dependencias</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+    <link th:href="@{/css/general-pp.css}" rel="stylesheet">
+  </head>
+
+  <body>
+	<header th:insert="fragments/barraCabecera :: menu-principal"> </header>
+
+
+    <main role="main">     
+      <hr>
+      <div class="container"> 
+
+        <div class="card">
+          <h4 class="card-header"><strong>Listado de Dependencias</strong></h4>              
+          <div class="card-body">
+            <a class="btn btn-primary" th:href="@{/dependencias/crear}" title="Crear uan nueva Dependencia" role="button"><i class="fas fa-file" aria-hidden="true"></i> Crear Nueva</a>            
+            <hr>
+            <!-- Para desplegar mensaje -->
+            <!--<h5 th:text="${msg}" ></h5>
+            <div th:if="${msg != null}" class="alert alert-success" th:text="${msg}" role=´alert´></div>
+            -->
+            <div th:if="${mensajeExito != null}" class="alert alert-success" th:text="${mensajeExito}" role=´alert´></div>
+			      <div th:if="${mensajeError != null}" class="alert alert-danger" th:text="${mensajeError}" role=´alert´></div>
+			         
+            
+            <table class="table table-hover">
+              <thead class="thead-light">
+              
+                <tr>
+                  <th>Id</th>
+                  <th>Nombre</th>
+                  <th>Tipo</th>                  
+                  <th>Localización</th>
+                  <th>Imagen</th>
+                  <th>Fecha de creación</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+                <tr th:each="dependencia : ${dependencias}">
+                  <td th:text="${dependencia.id}"></td>
+                  <td th:text="${dependencia.nombre}"></td>                  
+                  <td th:text="${dependencia.tipo}"></td>
+                  <td th:text="${dependencia.localizacion}"></td>
+                  <td><img th:src="@{/images/{img} (img=${dependencia.imagen})}" width="136" height="136"> </td>
+                  <td th:text="${dependencia.fechaCreacion}"></td>
+                  <td>
+                    <a th:href="@{/dependencias/editar/}+${dependencia.id}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                    <a th:href="@{/dependencias/eliminar/}+${dependencia.id}" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                  </td>
+                </tr>               
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div> <!-- /container -->
+
+    </main>
+
+ 		<footer th:insert="fragments/footer :: pie-pagina" class="footer"> </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>     
+  </body>
+</html>

@@ -28,10 +28,10 @@
           <h4 class="card-header"><strong>Datos de la Dependencia que se desea actualizar</strong></h4>              
           <div class="card-body">
           
-            <form th:action="@{/dependencias/guardarDependenciaActualizada}" method="post" th:object="${dependencia}">  
+            <form th:action="@{/dependencias/guardarDependenciaActualizada}" method="post" th:object="${dependencia}" enctype="multipart/form-data">  
              
              	<div th:if="${#fields.hasErrors('*')}"class='alert alert-danger' role='alert'>
-				Por favor corrija los siguientes errores:
+				
 				<ul>
 				<li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
 				</ul>
@@ -66,7 +66,7 @@
                 <div class="col-md-3"> 
                   <div class="form-group">
                     <label for="archivoImagen">Imagen</label>
-                    <input type="file" class="form-control-file" name="imagen" id="imagen">
+                    <input type="file" class="form-control-file" name="archivoImagen" id="archivoImagen">
                   </div>
                 </div>
               </div> 

@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Utileria {
 
     public static String guardarArchivo(MultipartFile multiPart, String ruta) {
-        String nombreOriginal = multiPart.getOriginalFilename();
+        String nombreOriginal = "//" + multiPart.getOriginalFilename();
         try {
             File imageFile = new File(ruta + nombreOriginal);
             System.out.println("Archivo: " + imageFile.getAbsolutePath());
@@ -18,5 +18,10 @@ public class Utileria {
             System.out.println("Error: " + e.getMessage());
             return null;
         }
+    }
+    public static void eliminarArchivo(String ruta){
+        File objFile = new File(ruta);
+        objFile.delete();
+
     }
 }

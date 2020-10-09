@@ -1,5 +1,7 @@
 package co.edu.unicauca.asae.core.taller.controllers;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +43,9 @@ public class DependenciasController {
             return "dependencias/formDependencia";
         }
         if(!multiPart.isEmpty()) {
-            String ruta="C:/Users/USERPC/Desktop/ASAE/taller/src/main/resources/static/images/";
+            Path path = Paths.get("src//main//resources//static//images");
+            String ruta = path.toFile().getAbsolutePath();
+            //String ruta="C:/Users/USERPC/Desktop/ASAE/taller/src/main/resources/static/images/";
             String nombreImagen=Utileria.guardarArchivo(multiPart, ruta);
             //System.out.println("NOMBRE: "+nombreImagen);
             if(nombreImagen!=null) {
@@ -70,7 +74,9 @@ public class DependenciasController {
         }
         
         if(!multiPart.isEmpty()) {
-            String ruta="C:/Users/USERPC/Desktop/ASAE/taller/src/main/resources/static/images/";
+            Path path = Paths.get("src//main//resources//static//images");
+            String ruta = path.toFile().getAbsolutePath();
+            //String ruta="C:/Users/USERPC/Desktop/ASAE/taller/src/main/resources/static/images/";
             String nombreImagen=Utileria.guardarArchivo(multiPart, ruta);
             
             if(nombreImagen!=null) {
@@ -111,6 +117,12 @@ public class DependenciasController {
     @GetMapping("/eliminar/{id}")
     public String eliminarDependencia(@PathVariable int id, RedirectAttributes attributes) {
 
+        Dependencia objDependencia = this.servicioGestinarDependencias.buscarDependencia(id);
+        if (objDependencia.getImagen() != null) {
+            Path path = Paths.get("src//main//resources//static//images");
+            String ruta = path.toFile().getAbsolutePath();
+            Utileria.eliminarArchivo(ruta + objDependencia.getImagen());
+        }
         boolean bandera = this.servicioGestinarDependencias.eliminarDependencia(id);
 
         if (bandera == true) {
@@ -128,28 +140,5 @@ public class DependenciasController {
 
     }
 
-    @PostMapping("/save")
-    public String guardar(Dependencia dependencia, BindingResult result, Model model, @RequestParam("imagen") MultipartFile multiPart, RedirectAttributes attributes) {
-
-        if (result.hasErrors()) {
-            for (ObjectError error : result.getAllErrors()) {
-                System.out.println("Ocurrió un error" + error.getDefaultMessage());
-            }
-            return "dependencias/formDependencia";
-        }
-
-        if(!multiPart.isEmpty()) {
-            String ruta="d:/dependencias/img-dependencias/";
-            String nombreImagen=Utileria.guardarArchivo(multiPart, ruta);
-            if(nombreImagen!=null) {
-                dependencia.setImagen(nombreImagen);
-            }
-        }
-
-        servicioGestinarDependencias.guardarDependencia(dependencia);
-        attributes.addFlashAttribute("mensajeExito", "Registro guardado con éxito");
-        return "redirect:/dependencias/mostrarDependencias";
-
-    }
 
 }
